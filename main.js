@@ -1,6 +1,8 @@
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import { TextGeometry } from 'three/addons/geometries/TextGeometry.js';
+import { FontLoader } from 'three/addons/loaders/FontLoader.js';
 
 
 const scene = new THREE.Scene();
@@ -23,39 +25,39 @@ const starsMaterial = new THREE.PointsMaterial({ color: 0xaaaaaa });
 const stars = new THREE.Points(starsGeometry, starsMaterial);
 scene.add(stars);
 
-const OBJECTS = {
-    SUN: 'sun',
-    MERCURY: 'mercury',
-    VENUS: 'venus',
-    EARTH: 'earth',
-    MARS: 'mars',
-    JUPITER: 'jupiter',
-    SATURN: 'saturn',
-    URANUS: 'uranus',
-    NEPTUNE: 'neptune',
-    PLUTO: 'pluto',
-};
+// const OBJECTS = {
+//     SUN: 'sun',
+//     MERCURY: 'mercury',
+//     VENUS: 'venus',
+//     EARTH: 'earth',
+//     MARS: 'mars',
+//     JUPITER: 'jupiter',
+//     SATURN: 'saturn',
+//     URANUS: 'uranus',
+//     NEPTUNE: 'neptune',
+//     PLUTO: 'pluto',
+// };
 
-class ObjectGroup {
-    static createObject = (title, objectGeometry) => {
-        const objectTexture = new THREE.TextureLoader().load(`textures/${title}.jpg`);
-        const objectMaterial = new THREE.MeshPhongMaterial({ map: objectTexture });
-        const objectMesh = new THREE.Mesh(objectGeometry, objectMaterial);
-        return objectMesh;
-    };
-}
+// class ObjectGroup {
+//     static createObject = (title, objectGeometry) => {
+//         const objectTexture = new THREE.TextureLoader().load(`textures/${title}.jpg`);
+//         const objectMaterial = new THREE.MeshPhongMaterial({ map: objectTexture });
+//         const objectMesh = new THREE.Mesh(objectGeometry, objectMaterial);
+//         return objectMesh;
+//     };
+// }
 
-const sun = ObjectGroup.createObject(OBJECTS.SUN, new THREE.SphereGeometry(11, 64, 32));
+// const sun = ObjectGroup.createObject(OBJECTS.SUN, new THREE.SphereGeometry(11, 64, 32));
 
-scene.add(sun);
+// scene.add(sun);
 
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 const renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 const controls = new OrbitControls( camera, renderer.domElement );
-camera.lookAt(0.5, 0.5, -1200)
-controls.target.set(10, .5, 300)
+camera.lookAt(0.5, 0.5, 0.5)
+controls.target.set(.5, .5, .5)
 controls.update()
 
 controls.addEventListener('change', () => console.log("Controls Change"))
@@ -100,6 +102,29 @@ function onWindowResize() {
 
 const light = new THREE.AmbientLight( 0x404040, 50 ); // soft white light
 scene.add( light );
+
+// const fontLoader = new FontLoader();
+// fontLoader.load( 'fonts/helvetiker_regular.typeface.json', function ( font ) {
+//     const geometry = new TextGeometry( 'Jupiter', {
+//         font: font,
+//         size: 8,
+//         height: 5,
+//         curveSegments: 12,
+//         bevelEnabled: true,
+//         bevelThickness: 10,
+//         bevelSize: 8,
+//         bevelOffset: 0,
+//         bevelSegments: 5
+//     } );
+// } );
+
+// const textMesh = new THREE.Mesh(geometry, [
+//     new THREE.MeshPhongMaterial({ color: 0xffffff, flatShading: true }), // front
+//     new THREE.MeshPhongMaterial({ color: 0xffffff }) // side
+// ])
+// textMesh.position.set(-50, 0, 0)
+// scene.add(textMesh)
+
 
 const loader = new GLTFLoader();
 
